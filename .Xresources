@@ -1,0 +1,3 @@
+Xft.dpi: 120
+URxvt.keysym.Control-Tab: eval:system('tmux select-window -t +')
+URxvt.keysym.Shift-Control-ISO_Left_Tab: eval:system('tmux select-window -t -')
