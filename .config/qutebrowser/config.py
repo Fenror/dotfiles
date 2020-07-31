@@ -20,4 +20,5 @@ c.completion.web_history.max_items = 0
 c.tabs.position = 'left'
 c.tabs.width = '2%'
 c.tabs.background = True
+c.tabs.last_close = 'blank'
 c.zoom.default = '125%'
