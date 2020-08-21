@@ -18,6 +18,7 @@ Plug 'prettier/vim-prettier'
 Plug 'dense-analysis/ale'
 Plug 'jiangmiao/auto-pairs'
 Plug 'lilydjwg/colorizer'
+Plug 'psf/black', { 'commit': 'ce14fa8b497bae2b50ec48b3bd7022573a59cdb1'  }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
@@ -104,11 +105,6 @@ au InsertLeave * :set relativenumber
 
 "tmux-navigator
 let g:tmux_navigator_no_mappings = 1
-augroup vimrc
-  au!
-  au VimEnter * unmap <C-j>
-  au VimEnter * noremap <C-j> <C-w>j
-augroup END
 nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
@@ -119,14 +115,14 @@ map <leader>P :VimuxRunCommand "python -i " . bufname("%")<cr>
 
 "nerdtree
 autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 map <C-f> :NERDTreeToggle<CR>
 
 "ALE
 let g:ale_linters = {
 \   'python': ['flake8', 'pylint'],
 \   'javascript': ['eslint'],
-\   'vue': ['eslint']
+\   'vue': ['eslint'],
+\   'cpp': ['clang', 'g++']
 \}
 
 let g:ale_fixers = {
@@ -138,6 +134,10 @@ let g:ale_fixers = {
   \    'reason': ['refmt']
   \}
 let g:ale_fix_on_save = 1
+let g:ale_cpp_clang_options = '-std=c++17'
+let g:ale_cpp_gcc_options = '-std=c++17'
+" Disable linting for all minified JS files.
+let g:ale_pattern_options = {'\.py$': {'ale_enabled': 0}}
 
 "vimtex
 let g:Tex_DefaultTargetFormat = 'pdf'
@@ -146,6 +146,11 @@ let g:vimtex_latexmk_continuous = 0
 let g:tex_flavor = 'pdflatex'
 let g:Tex_CompileRule_pdf = 'pdflatex --interaction=nonstopmode $*'
 let g:Tex_ViewRule_pdf = 'zathura'
+nmap <C-space> <Plug>IMAP_JumpForward
 
 au FileType tex setlocal nocursorline
 au FileType tex :NoMatchParen
+
+"fswitch
+au! BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = '../include'
+map <S-h> :FSHere<cr>
