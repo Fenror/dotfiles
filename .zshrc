@@ -9,6 +9,8 @@ fi
 export PATH=$HOME/.bin:/usr/local/bin:$PATH
 export MANPATH="/usr/local/man:$MANPATH"
 export WORKON_HOME=~/.virtualenvs
+export EDITOR=vim
+alias nnn="nnn -e"
 source /usr/bin/virtualenvwrapper.sh
 source ~/.ls_colors
 

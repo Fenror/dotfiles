@@ -18,7 +18,8 @@ Plug 'prettier/vim-prettier'
 Plug 'dense-analysis/ale'
 Plug 'jiangmiao/auto-pairs'
 Plug 'lilydjwg/colorizer'
-Plug 'psf/black', { 'commit': 'ce14fa8b497bae2b50ec48b3bd7022573a59cdb1'  }
+Plug 'tpope/vim-surround'
+Plug 'psf/black'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
@@ -141,6 +142,7 @@ let g:ale_pattern_options = {'\.py$': {'ale_enabled': 0}}
 
 "vimtex
 let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_MultipleCompileFormats='pdf,bibtex,pdf'
 let g:vimtex_view_general_viewer = 'xdg-open'
 let g:vimtex_latexmk_continuous = 0
 let g:tex_flavor = 'pdflatex'
@@ -152,5 +154,8 @@ au FileType tex setlocal nocursorline
 au FileType tex :NoMatchParen
 
 "fswitch
-au! BufEnter *.cpp let b:fswitchdst = 'hpp,h' | let b:fswitchlocs = '../include'
+au! BufEnter *.cpp let b:fswitchdst = 'hpp,h'| let b:fswitchlocs = '.'
 map <S-h> :FSHere<cr>
+
+"supertab
+let g:SuperTabDefaultCompletionType = "<c-n>"
