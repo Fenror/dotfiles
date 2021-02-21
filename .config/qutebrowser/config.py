@@ -1,3 +1,4 @@
+config.load_autoconfig(False)
 config.bind('ö', 'set-cmd-text :')
 config.bind('-', 'set-cmd-text /')
 config.bind('t', 'set-cmd-text -s :open -t')
@@ -7,7 +8,9 @@ config.bind('<Ctrl-p>', 'tab-prev')
 config.bind('<Ctrl-Shift-tab>', 'tab-prev')
 config.bind('O', 'set-cmd-text :open {url:pretty}')
 config.bind('T', 'set-cmd-text :open -t {url:pretty}')
-config.bind('m', 'spawn mpv {url}')
+
+config.set('qt.highdpi', True)
+config.set('qt.environ', {"QT_SCALE_FACTOR": "1.25"})
 
 c.colors.hints.bg = '#FFFFFF'
 c.downloads.location.directory = '~/downloads'
@@ -17,8 +20,8 @@ c.url.default_page = 'about:blank'
 c.url.start_pages = 'about:blank'
 c.url.searchengines = {"DEFAULT": "https://google.com/search?q={}", "yt": "https://youtube.com/results?search_query={}"}
 c.completion.web_history.max_items = 0
-c.tabs.position = 'left'
-c.tabs.width = '2%'
+c.tabs.position = 'top'
+c.tabs.width = '4%'
 c.tabs.background = True
 c.tabs.last_close = 'blank'
-c.zoom.default = '125%'
+c.zoom.default = '100%'

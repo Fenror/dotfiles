@@ -43,16 +43,10 @@ signal=1
 LONG_FORMAT="${SYMB} ${VOL}%"
 #STEP=5%
 
-
-# Network interface monitoring
-#
-# If the instance is not specified, use the interface used for default route.
-# The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
-[iface]
-#IFACE=wlan0
-color=#00FF00
-interval=10
-separator=true
+[backlight]
+command=~/.config/i3blocks/backlight/backlight
+label=☀
+interval=5
 
 [battery2]
 markup=pango
@@ -66,3 +60,14 @@ interval=5
 interval=3600
 markup=pango
 LABEL= 
+
+# Network interface monitoring
+#
+# If the instance is not specified, use the interface used for default route.
+# The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
+[iface]
+#IFACE=wlan0
+color=#00FF00
+interval=10
+separator=true
+

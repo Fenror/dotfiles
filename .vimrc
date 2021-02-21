@@ -12,7 +12,6 @@ Plug 'danro/rename.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'benmills/vimux'
 Plug 'tpope/vim-commentary'
-Plug 'othree/yajs.vim'
 Plug 'mxw/vim-jsx'
 Plug 'prettier/vim-prettier'
 Plug 'dense-analysis/ale'
@@ -20,7 +19,10 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'lilydjwg/colorizer'
 Plug 'tpope/vim-surround'
 Plug 'psf/black'
+Plug 'moll/vim-node'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'pangloss/vim-javascript'
+Plug 'elzr/vim-json'
 call plug#end()
 
 filetype plugin on
@@ -111,8 +113,12 @@ nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
 nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
 nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <c-e> :TmuxNavigatePrevious<cr>
-map <leader>p :VimuxRunCommand "python " . bufname("%")<cr>
-map <leader>P :VimuxRunCommand "python -i " . bufname("%")<cr>
+autocmd FileType python nnoremap<buffer> <leader>p :call VimuxRunCommand("python " . bufname("%"))<cr>
+autocmd FileType python nnoremap<buffer> <leader>P :call VimuxRunCommand("python -i " . bufname("%"))<cr>
+autocmd FileType javascript nnoremap<buffer> <leader>p :call VimuxRunCommand("node " . bufname("%"))<cr>
+let g:VimuxHeight = "30"
+let g:VimuxOrientation = 'h'
+let g:VimuxUseNearestPane = 0
 
 "nerdtree
 autocmd StdinReadPre * let s:std_in=1
@@ -123,7 +129,8 @@ let g:ale_linters = {
 \   'python': ['flake8', 'pylint'],
 \   'javascript': ['eslint'],
 \   'vue': ['eslint'],
-\   'cpp': ['clang', 'g++']
+\   'cpp': ['clang', 'g++'],
+\   'scss': ['stylelint']
 \}
 
 let g:ale_fixers = {
@@ -159,3 +166,6 @@ map <S-h> :FSHere<cr>
 
 "supertab
 let g:SuperTabDefaultCompletionType = "<c-n>"
+
+"HTML tag thingie
+imap <C-t> <></><Esc>5hdiwp3lpT>i
