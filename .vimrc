@@ -1,6 +1,6 @@
 call plug#begin()
 Plug 'kien/ctrlp.vim'
-Plug 'altercation/vim-colors-solarized'
+"Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-latex/vim-latex'
@@ -14,7 +14,6 @@ Plug 'benmills/vimux'
 Plug 'tpope/vim-commentary'
 Plug 'mxw/vim-jsx'
 Plug 'prettier/vim-prettier'
-Plug 'dense-analysis/ale'
 Plug 'jiangmiao/auto-pairs'
 Plug 'lilydjwg/colorizer'
 Plug 'tpope/vim-surround'
@@ -23,13 +22,15 @@ Plug 'moll/vim-node'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'pangloss/vim-javascript'
 Plug 'elzr/vim-json'
+Plug 'cdelledonne/vim-cmake'
+Plug 'tpope/vim-dispatch'
 call plug#end()
 
 filetype plugin on
 syntax on " Enable syntax highlighting
 
-colorscheme solarized
 set t_Co=256
+set autochdir                   " Automatically change directory to current file
 set autoindent
 set autoread                    " Automatically load file changes
 set background=dark
@@ -38,7 +39,6 @@ set cursorline                  " Higlight current line
 set encoding=utf-8
 set termencoding=utf-8
 set expandtab                   " Turn tabs into spaces
-set foldcolumn=1                " Extra margin to the left
 set hidden                      " Remember undo tree and cursor positions and stuff
 set history=1000
 set hlsearch                    " Highlight search
@@ -52,7 +52,6 @@ set noswapfile
 set notimeout
 set nowb
 set number                      " Show line numbers
-set relativenumber
 set ruler                       " Show row/col in lower right
 set shiftwidth=2                " Autoindent 2 spaces
 set smartcase
@@ -63,7 +62,7 @@ set timeoutlen=1000
 set ttimeout
 set ttimeoutlen=0
 set undolevels=1000
-set wildignore+=*.log,*.aux,*.pdf,*.gz,*.bbl,*.thm,*.out,*.bst,*.std,*.blg,*.o
+set wildignore+=*.log,*.aux,*.pdf,*.gz,*.bbl,*.thm,*.out,*.bst,*.std,*.blg,*.o,node_modules,build
 set wildmenu
 set wrap
 
@@ -85,12 +84,12 @@ nmap <silent> <leader>ev :e $MYVIMRC<cr>
 nmap <silent> <leader>sv :so $MYVIMRC<cr>
 
 "Fugitive
-map <Leader>gs :Gstatus<cr>
-map <Leader>gd :Gdiff<cr>
-map <Leader>gc :Gcommit<cr>
-map <Leader>gl :Glog<cr>
-map <Leader>gp :Gpush<cr>
-map <Leader>gr :Gread<cr>
+map <Leader>gs :Git<cr>
+map <Leader>gd :Git diff<cr>
+map <Leader>gc :Git commit<cr>
+map <Leader>gl :Git log<cr>
+map <Leader>gp :Git push<cr>
+map <Leader>gr :Git read<cr>
 map <Leader>go :Git checkout<Space>
 map <Leader>gb :Git branch<Space>
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
@@ -103,8 +102,8 @@ let g:ctrlp_by_filename=1
 let g:ctrlp_switch_buffer=1
 
 "Relative line numbers
-au InsertEnter * :set norelativenumber
-au InsertLeave * :set relativenumber
+"au InsertEnter * :set norelativenumber
+"au InsertLeave * :set relativenumber
 
 "tmux-navigator
 let g:tmux_navigator_no_mappings = 1
@@ -116,6 +115,8 @@ nnoremap <silent> <c-e> :TmuxNavigatePrevious<cr>
 autocmd FileType python nnoremap<buffer> <leader>p :call VimuxRunCommand("python " . bufname("%"))<cr>
 autocmd FileType python nnoremap<buffer> <leader>P :call VimuxRunCommand("python -i " . bufname("%"))<cr>
 autocmd FileType javascript nnoremap<buffer> <leader>p :call VimuxRunCommand("node " . bufname("%"))<cr>
+autocmd FileType cpp nnoremap<buffer> <leader>P :Dispatch ../Release/main<cr>
+autocmd FileType cpp nnoremap<buffer> <leader>p :Dispatch ../Debug/main<cr>
 let g:VimuxHeight = "30"
 let g:VimuxOrientation = 'h'
 let g:VimuxUseNearestPane = 0
@@ -149,7 +150,7 @@ let g:ale_pattern_options = {'\.py$': {'ale_enabled': 0}}
 
 "vimtex
 let g:Tex_DefaultTargetFormat = 'pdf'
-let g:Tex_MultipleCompileFormats='pdf,bibtex,pdf'
+let g:Tex_MultipleCompileFormats = 'pdf,bibtex,pdf'
 let g:vimtex_view_general_viewer = 'xdg-open'
 let g:vimtex_latexmk_continuous = 0
 let g:tex_flavor = 'pdflatex'
@@ -161,7 +162,7 @@ au FileType tex setlocal nocursorline
 au FileType tex :NoMatchParen
 
 "fswitch
-au! BufEnter *.cpp let b:fswitchdst = 'hpp,h'| let b:fswitchlocs = '.'
+au! BufEnter *.cpp let b:fswitchdst = 'hpp,h'| let b:fswitchlocs = '.,../include'
 map <S-h> :FSHere<cr>
 
 "supertab
@@ -169,3 +170,11 @@ let g:SuperTabDefaultCompletionType = "<c-n>"
 
 "HTML tag thingie
 imap <C-t> <></><Esc>5hdiwp3lpT>i
+
+"CMake
+let g:cmake_link_compile_commands = 1
+map <leader>cg :CMakeGenerate<cr>
+map <leader>cd :CMakeSwitch Debug<cr>
+map <leader>cr :CMakeSwitch Release<cr>
+map <leader>cb :CMakeBuild<cr>
+map <leader>cq :CMakeClose<cr>

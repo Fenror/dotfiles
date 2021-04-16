@@ -25,3 +25,4 @@ c.tabs.width = '4%'
 c.tabs.background = True
 c.tabs.last_close = 'blank'
 c.zoom.default = '100%'
+c.qt.args = ["enable-gpu-rasterization", "ignore-gpu-blacklist", "enable-native-gpu-memory-buffers", "num-raster-threads=4"]

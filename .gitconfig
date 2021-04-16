@@ -3,3 +3,5 @@
 	name = Oskar Ålund
 [core]
 	editor = vim
+[init]
+	defaultBranch = main

@@ -104,7 +104,7 @@ mode "$mode_system" {
     bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
     bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"  
+    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
@@ -118,6 +118,7 @@ bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN
 bindsym $mod+Return exec termite
 bindsym $mod+Shift+q kill
 bindsym $mod+d exec rofi -show run
+bindsym $mod+c exec rofi -show window
 
 # change focus
 bindsym $mod+h focus left
@@ -208,17 +209,16 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 5
 
 
 # GAPS
-for_window [class=".*"] border pixel 3
+for_window [class=".*"] border pixel 1
 smart_borders on
-gaps inner 25
-
+gaps inner 10
 workspace $ws1 gaps inner 0
 
 
 # BAR
 bar {
-        font pango:monospace 9, FontAwesome 9
-        status_command i3blocks
+  font pango:monospace 9, FontAwesome 9
+  status_command i3blocks
 }
 
 
