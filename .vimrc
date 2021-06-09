@@ -1,12 +1,12 @@
 call plug#begin()
 Plug 'kien/ctrlp.vim'
-"Plug 'altercation/vim-colors-solarized'
+Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
 Plug 'vim-latex/vim-latex'
 Plug 'ervandew/supertab'
 Plug 'sirver/ultisnips'
-Plug 'honza/vim-snippets'
+"Plug 'honza/vim-snippets'
 Plug 'derekwyatt/vim-fswitch'
 Plug 'danro/rename.vim'
 Plug 'christoomey/vim-tmux-navigator'
@@ -24,11 +24,14 @@ Plug 'pangloss/vim-javascript'
 Plug 'elzr/vim-json'
 Plug 'cdelledonne/vim-cmake'
 Plug 'tpope/vim-dispatch'
+Plug 'morhetz/gruvbox'
 call plug#end()
 
 filetype plugin on
-syntax on " Enable syntax highlighting
+syntax enable " Enable syntax highlighting
+colorscheme gruvbox
 
+set termguicolors
 set t_Co=256
 set autochdir                   " Automatically change directory to current file
 set autoindent
@@ -66,6 +69,10 @@ set wildignore+=*.log,*.aux,*.pdf,*.gz,*.bbl,*.thm,*.out,*.bst,*.std,*.blg,*.o,n
 set wildmenu
 set wrap
 
+"Weird hack to get syntax highlighting to work in tmux
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
 let mapleader="\<Space>"
 let maplocalleader="\<Space>"
 
@@ -101,10 +108,6 @@ let g:ctrlp_clear_cache_on_exit=0
 let g:ctrlp_by_filename=1
 let g:ctrlp_switch_buffer=1
 
-"Relative line numbers
-"au InsertEnter * :set norelativenumber
-"au InsertLeave * :set relativenumber
-
 "tmux-navigator
 let g:tmux_navigator_no_mappings = 1
 nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
@@ -115,8 +118,9 @@ nnoremap <silent> <c-e> :TmuxNavigatePrevious<cr>
 autocmd FileType python nnoremap<buffer> <leader>p :call VimuxRunCommand("python " . bufname("%"))<cr>
 autocmd FileType python nnoremap<buffer> <leader>P :call VimuxRunCommand("python -i " . bufname("%"))<cr>
 autocmd FileType javascript nnoremap<buffer> <leader>p :call VimuxRunCommand("node " . bufname("%"))<cr>
-autocmd FileType cpp nnoremap<buffer> <leader>P :Dispatch ../Release/main<cr>
-autocmd FileType cpp nnoremap<buffer> <leader>p :Dispatch ../Debug/main<cr>
+autocmd FileType cpp nnoremap<buffer> <leader>p :call VimuxRunCommand("../Debug/main")<cr>
+autocmd FileType cpp nnoremap<buffer> <leader>P :call VimuxRunCommand("../Release/main")<cr>
+"autocmd FileType cpp nnoremap<buffer> <leader>P :Dispatch ../Release/main<cr>
 let g:VimuxHeight = "30"
 let g:VimuxOrientation = 'h'
 let g:VimuxUseNearestPane = 0
@@ -124,29 +128,6 @@ let g:VimuxUseNearestPane = 0
 "nerdtree
 autocmd StdinReadPre * let s:std_in=1
 map <C-f> :NERDTreeToggle<CR>
-
-"ALE
-let g:ale_linters = {
-\   'python': ['flake8', 'pylint'],
-\   'javascript': ['eslint'],
-\   'vue': ['eslint'],
-\   'cpp': ['clang', 'g++'],
-\   'scss': ['stylelint']
-\}
-
-let g:ale_fixers = {
-  \    'javascript': ['eslint'],
-  \    'typescript': ['prettier', 'tslint'],
-  \    'vue': ['eslint'],
-  \    'scss': ['prettier'],
-  \    'html': ['prettier'],
-  \    'reason': ['refmt']
-  \}
-let g:ale_fix_on_save = 1
-let g:ale_cpp_clang_options = '-std=c++17'
-let g:ale_cpp_gcc_options = '-std=c++17'
-" Disable linting for all minified JS files.
-let g:ale_pattern_options = {'\.py$': {'ale_enabled': 0}}
 
 "vimtex
 let g:Tex_DefaultTargetFormat = 'pdf'
@@ -178,3 +159,7 @@ map <leader>cd :CMakeSwitch Debug<cr>
 map <leader>cr :CMakeSwitch Release<cr>
 map <leader>cb :CMakeBuild<cr>
 map <leader>cq :CMakeClose<cr>
+
+" Fix CocErrorHighlight in tmux
+hi CocErrorHighlight gui=underline term=underline cterm=underline
+hi CocWarningHighlight gui=underline term=underline cterm=underline

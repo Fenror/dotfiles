@@ -36,7 +36,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id "picom"
 
 # Set wallpaper
-exec --no-startup-id feh --bg-fill ~/pictures/wallpapers/wall001.jpg
+exec --no-startup-id feh --bg-fill ~/pictures/wallpapers/skyline.png
 
 
 # MISC SETTINGS
@@ -115,7 +115,7 @@ mode "$mode_system" {
 bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+1 i3blocks
 bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+1 i3blocks
-bindsym $mod+Return exec termite
+bindsym $mod+Return exec alacritty
 bindsym $mod+Shift+q kill
 bindsym $mod+d exec rofi -show run
 bindsym $mod+c exec rofi -show window
